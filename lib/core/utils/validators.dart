@@ -17,8 +17,7 @@ class AppValidators{
   }
 
   static String? validatePassword(String? val){
-    RegExp passRegex =
-    RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
+    RegExp passRegex = RegExp(r'^(?=.*[a-zA-Z])(?=.*[0-9])');
     if(val == null || val.trim().isEmpty){
     return 'This field is required';
   }
@@ -54,7 +53,9 @@ class AppValidators{
     if(val == null ){
     return 'This field is required';
   }else if(int.tryParse(val.trim()) == null){
-      return 'Enter value must equal 11 digits ';
+      return 'Enter nums only ';
+    }else if(val.trim().length != 11 ){
+      return 'Enter value must equal 11 digits';
     }
   else{
     return null;
