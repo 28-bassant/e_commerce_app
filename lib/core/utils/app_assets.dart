@@ -1,4 +1,23 @@
 class AppAssets{
   static const String routeImage = 'assets/images/route_image.png';
+  static const String routeTitle = 'assets/images/route_title.png';
   static const String splashScreen = 'assets/images/splash_screen.png';
+  static const String unSelectedHomeTabIcon = 'assets/images/unselected_home_tab_icon.png';
+  static const String unSelectedProductsTabIcon = 'assets/images/unselected_products_tab_icon.png';
+  static const String unSelectedFavouriteTabIcon = 'assets/images/unselected_favourite_tab_icon.png';
+  static const String unSelectedProfileTabIcon = 'assets/images/unselected_profile_tab_icon.png';
+  static const String selectedHomeTabIcon = 'assets/images/selected_home_tab_icon.png';
+  static const String selectedProductsTabIcon = 'assets/images/selected_products_tab_icon.png';
+  static const String selectedFavouriteTabIcon = 'assets/images/selected_favourite_tab_icon.png';
+  static const String selectedProfileTabIcon = 'assets/images/selected_profile_tab_icon.png';
+  static const String searchIcon = 'assets/images/search_icon.png';
+  static const String shoppingCartIcon = 'assets/images/shopping_cart_icon.png';
+  static const String adImage1 = 'assets/images/ad_image1.png';
+  static const String adImage2 = 'assets/images/ad_image2.png';
+  static const String adImage3 = 'assets/images/ad_image3.png';
+  static const String selectedFavIcon = 'assets/images/selected_fav_icon.png';
+  static const String unSelectedFavIcon = 'assets/images/unselected_fav_icon.png';
+  static const String rateIcon = 'assets/images/rate_icon.png';
+  static const String addIcon = 'assets/images/add_icon.png';
+  static const String editIcon = 'assets/images/edit_icon.png';
 }

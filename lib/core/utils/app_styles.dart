@@ -121,7 +121,10 @@ class AppStyles{
   static TextStyle regular11PrimaryWithOpacity = GoogleFonts.poppins(
     color: AppColors.primary30Opacity,
     fontSize: 11,
-    fontWeight: FontWeight.w400
+    fontWeight: FontWeight.w400,
+      decoration:TextDecoration.lineThrough,
+    decorationColor: AppColors.primaryColor,
+    decorationThickness: 2
   );
 
    static TextStyle semiBold16PrimaryDark = GoogleFonts.poppins(
