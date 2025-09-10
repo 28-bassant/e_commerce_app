@@ -20,6 +20,7 @@ class CustomTextFormField extends StatelessWidget {
   bool obscureText;
   int? maxLines;
   TextStyle? textStyle;
+  double? borderRadius;
 
   CustomTextFormField({
     this.filledColor,
@@ -34,7 +35,9 @@ class CustomTextFormField extends StatelessWidget {
     this.onValidator,
     this.keyboardType,
     this.obscureText = false,
-    this.textStyle
+    this.textStyle,
+    this.borderRadius
+
   });
 
   @override
@@ -68,7 +71,7 @@ class CustomTextFormField extends StatelessWidget {
 
   OutlineInputBorder builtTextFieldBorder({required Color? borderColor}) {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(borderRadius ?? 16),
       borderSide: BorderSide(
         color: borderColor ?? AppColors.whiteColor,
         width: 1,
