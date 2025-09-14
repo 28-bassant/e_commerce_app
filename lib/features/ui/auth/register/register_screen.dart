@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/app_assets.dart';
 import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/app_routes.dart';
 import '../../../../core/utils/app_styles.dart';
 import '../../../../core/utils/dialog_utils.dart';
 import '../../../../core/utils/validators.dart';
@@ -46,7 +47,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
         else if(state is AuthSuccessState){
           DialogUtils.hideLoading(context: context);
           DialogUtils.showMsg(context: context, content: 'Register Successfully',
-              title: 'Success',postActionName: 'Ok');
+              title: 'Success',postActionName: 'Ok',
+          postFunc: (){
+            Navigator.pushNamedAndRemoveUntil(context, AppRoutes.homeRoute,
+                  (route) => true,);
+          });
         }
       },
       child: Scaffold(
@@ -135,7 +140,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 name: fullNameController.text,
                                 rePassword: passwordController.text,
                                 phone: mobileNumberController.text);
-                          },
+                          }
                         ),
 
 

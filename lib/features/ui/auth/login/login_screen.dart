@@ -42,7 +42,11 @@ class _LoginScreenState extends State<LoginScreen> {
         else if(state is AuthSuccessState){
           DialogUtils.hideLoading(context: context);
           DialogUtils.showMsg(context: context, content: 'Login Successfully',
-              title: 'Success',postActionName: 'Ok');
+              title: 'Success',postActionName: 'Ok',
+          postFunc: (){
+            Navigator.pushNamedAndRemoveUntil(context, AppRoutes.homeRoute,
+                  (route) => true,);
+          });
         }
       },
       child: Scaffold(
@@ -107,7 +111,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         CustomElevatedButton(text: 'Login',
                         onPressed: () {
                           //todo : Login
-                          viewModel.login(email: emailController.text,password: passwordController.text);
+                          viewModel.login(email: emailController.text,password: passwordController.text,);
+
                         },),
                         SizedBox(height: 32.h,),
                         Row(
