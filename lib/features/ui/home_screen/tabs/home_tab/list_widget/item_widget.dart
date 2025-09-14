@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
+import 'package:e_commerce_app/domain/entities/response/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+
 class ItemWidget extends StatelessWidget {
-  const ItemWidget({super.key});
+  Category item;
+   ItemWidget({super.key,required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +20,7 @@ class ItemWidget extends StatelessWidget {
           child: CachedNetworkImage(
             width: 80,
             height: 80,
-            imageUrl:
-            "https://ecommerce.routemisr.com/Route-Academy-categories/1681511865180.jpeg",
+            imageUrl: item.image ?? '',
             imageBuilder: (context, imageProvider) => Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
@@ -43,10 +45,10 @@ class ItemWidget extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         Text(
-          'laptops & electronics',
-          textAlign: TextAlign.center, // 🔹 center the text
+          item.name ?? '',
+          textAlign: TextAlign.center,
           style: AppStyles.regular14Black,
-          maxLines: 2, // prevent overflow
+          maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),
       ],
