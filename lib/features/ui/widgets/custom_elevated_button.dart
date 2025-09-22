@@ -13,6 +13,7 @@ class CustomElevatedButton extends StatelessWidget {
   bool isIcon;
   Widget? iconWidget;
   MainAxisAlignment mainAxisAlignment;
+  double? borderReadius;
 
   CustomElevatedButton({
     super.key,
@@ -24,6 +25,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.isIcon = false,
     this.iconWidget,
     this.mainAxisAlignment = MainAxisAlignment.start,
+    this.borderReadius
   });
 
   @override
@@ -41,7 +43,7 @@ class CustomElevatedButton extends StatelessWidget {
           BorderSide(color: borderColor, width: 1),
         ),
         shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderReadius ?? 16)),
         ),
       ),
       child: isIcon

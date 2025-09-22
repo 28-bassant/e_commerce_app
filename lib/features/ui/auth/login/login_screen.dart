@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/config/di/di.dart';
+import 'package:e_commerce_app/core/cache/shared_prefs_utils.dart';
 import 'package:e_commerce_app/core/utils/app_assets.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_routes.dart';
@@ -21,8 +22,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController emailController = TextEditingController(text: 'adasdfvv@fds.com');
-  TextEditingController passwordController = TextEditingController(text: '18061717@A');
+  TextEditingController emailController = TextEditingController(text: 'bassant22@gmail.com');
+  TextEditingController passwordController = TextEditingController(text: '123456@B');
   bool isVisible = false;
   LoginViewModel viewModel = getIt<LoginViewModel>();
   @override
@@ -44,6 +45,9 @@ class _LoginScreenState extends State<LoginScreen> {
           DialogUtils.showMsg(context: context, content: 'Login Successfully',
               title: 'Success',postActionName: 'Ok',
           postFunc: (){
+            //todo: save token
+             SharedPrefsUtils.saveData(key: 'token', value: state.authResponse.token);
+            //todo: Navigate to home screen
             Navigator.pushNamedAndRemoveUntil(context, AppRoutes.homeRoute,
                   (route) => true,);
           });

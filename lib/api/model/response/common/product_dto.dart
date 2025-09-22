@@ -1,5 +1,5 @@
 import 'package:e_commerce_app/api/model/response/common/category_dto.dart';
-import 'package:e_commerce_app/api/model/response/products/sub_category_dto.dart';
+import 'package:e_commerce_app/api/model/response/common/sub_category_dto.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'product_dto.g.dart' ;

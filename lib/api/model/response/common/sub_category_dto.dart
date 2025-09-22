@@ -1,7 +1,7 @@
 
 import 'package:json_annotation/json_annotation.dart';
 
-part 'sub_category_dto.g.dart';
+ part 'sub_category_dto.g.dart';
 @JsonSerializable()
 class SubcategoryDto {
   @JsonKey(name: "_id")

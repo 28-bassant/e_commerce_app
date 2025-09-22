@@ -1,5 +1,7 @@
+import 'package:e_commerce_app/core/cache/shared_prefs_utils.dart';
 import 'package:e_commerce_app/core/utils/app_assets.dart';
 import 'package:e_commerce_app/core/utils/app_colors.dart';
+import 'package:e_commerce_app/core/utils/app_routes.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
 import 'package:e_commerce_app/features/ui/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +17,21 @@ class ProfileTab extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text('Welcome, Mohamed',style: AppStyles.medium18Black,),
-          Text('mohamed.N@gmail.com',style: AppStyles.medium14PrimaryDark,),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('mohamed.N@gmail.com',style: AppStyles.medium14PrimaryDark,),
+              InkWell(
+                  onTap: (){
+                    //todo: remove token
+                    SharedPrefsUtils.removeData(key: 'token');
+                    //todo: logout , navigate to login
+                    Navigator.pushNamedAndRemoveUntil(context,
+                        AppRoutes.loginRoute, (route) => false,);
+                  },
+                  child: Icon(Icons.logout))
+            ],
+          ),
           SizedBox(height: 40.h,),
           Text('Your full name',style: AppStyles.medium18Black,),
           SizedBox(height: 16.h,),
