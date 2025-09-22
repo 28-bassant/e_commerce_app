@@ -1,6 +1,8 @@
 import 'package:e_commerce_app/domain/entities/response/get_products.dart';
 import 'package:e_commerce_app/domain/use_cases/add_to_cart_use_case.dart';
+import 'package:e_commerce_app/domain/use_cases/delete_items_in_cart_use_case.dart';
 import 'package:e_commerce_app/domain/use_cases/get_items_in_cart_use_case.dart';
+import 'package:e_commerce_app/domain/use_cases/update_counts_in_cart_use_case.dart';
 import 'package:e_commerce_app/features/ui/cart/cubit/cart_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -11,8 +13,12 @@ import '../../../../core/exceptions/app_exception.dart';
 class CartViewModel extends Cubit<CartStates>{
   AddToCartUseCase addToCartUseCase;
   GetItemsInCartUseCase getItemsInCartUseCase;
+  DeleteItemsInCartUseCase deleteItemsInCartUseCase;
+  UpdateCountsInCartUseCase updateCountsInCartUseCase;
   CartViewModel({required this.addToCartUseCase,
-  required this.getItemsInCartUseCase
+    required this.getItemsInCartUseCase,
+    required this.deleteItemsInCartUseCase,
+    required this.updateCountsInCartUseCase
   }):super(CartInitialState());
 
   static CartViewModel get(context) => BlocProvider.of<CartViewModel>(context);
@@ -43,6 +49,33 @@ class CartViewModel extends Cubit<CartStates>{
        numOfCartItems = getCartResponse.numOfCartItems ?? 0;
       productsList = getCartResponse.data!.products ?? [];
       emit(GetCartSuccessState(getCart: getCartResponse.data!));
+    }on AppException catch(e){
+      emit(GetCartErrorState(message: e.message));
+    }
+
+  }
+
+  Future<void> deleteItemsInCart(String productId)async{
+    try{
+      var deleteCartResponse = await deleteItemsInCartUseCase.invoke(productId);
+       numOfCartItems = deleteCartResponse.numOfCartItems ?? 0;
+      productsList = deleteCartResponse.data!.products ?? [];
+      emit(GetCartSuccessState(getCart: deleteCartResponse.data!,
+      message: 'Deleted Items Successfully.'));
+    }on AppException catch(e){
+      emit(GetCartErrorState(message: e.message));
+    }
+
+  }
+
+  Future<void> updateCountInCart(String productId,int count)async{
+    try{
+      var updateCartResponse = await updateCountsInCartUseCase.invoke(productId,count);
+      //  numOfCartItems = updateCartResponse.numOfCartItems ?? 0;
+      productsList = updateCartResponse.data!.products ?? [];
+
+      emit(GetCartSuccessState(getCart: updateCartResponse.data!,
+      message: 'Update Items Successfully.'));
     }on AppException catch(e){
       emit(GetCartErrorState(message: e.message));
     }

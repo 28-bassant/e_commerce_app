@@ -5,5 +5,7 @@ import '../../../domain/entities/response/get_cart_response.dart';
 abstract class CartRemoteDataSource{
   Future<AddCartResponse> addToCart(String productId);
   Future<GetCartResponse> getItemsInCart();
+  Future<GetCartResponse> deleteItemsInCart(String productId);
+  Future<GetCartResponse> updateCountInCart(String productId,int count);
 
 }

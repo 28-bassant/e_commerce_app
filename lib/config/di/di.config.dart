@@ -44,12 +44,14 @@ import '../../domain/repositories/cart/cart_repository.dart' as _i388;
 import '../../domain/repositories/category/category_repository.dart' as _i612;
 import '../../domain/repositories/product/product_repository.dart' as _i774;
 import '../../domain/use_cases/add_to_cart_use_case.dart' as _i1024;
+import '../../domain/use_cases/delete_items_in_cart_use_case.dart' as _i87;
 import '../../domain/use_cases/get_all_brands_use_case.dart' as _i773;
 import '../../domain/use_cases/get_all_categories_use_case.dart' as _i201;
 import '../../domain/use_cases/get_all_products_use_case.dart' as _i939;
 import '../../domain/use_cases/get_items_in_cart_use_case.dart' as _i315;
 import '../../domain/use_cases/login_use_case.dart' as _i471;
 import '../../domain/use_cases/register_use_case.dart' as _i479;
+import '../../domain/use_cases/update_counts_in_cart_use_case.dart' as _i398;
 import '../../features/ui/auth/login/cubit/login_view_model.dart' as _i245;
 import '../../features/ui/auth/register/cubit/register_view_model.dart'
     as _i873;
@@ -169,14 +171,26 @@ extension GetItInjectableX on _i174.GetIt {
         cartRepository: gh<_i388.CartRepository>(),
       ),
     );
-    gh.factory<_i454.CartViewModel>(
-      () => _i454.CartViewModel(
-        addToCartUseCase: gh<_i1024.AddToCartUseCase>(),
-        getItemsInCartUseCase: gh<_i315.GetItemsInCartUseCase>(),
+    gh.factory<_i87.DeleteItemsInCartUseCase>(
+      () => _i87.DeleteItemsInCartUseCase(
+        cartRepository: gh<_i388.CartRepository>(),
+      ),
+    );
+    gh.factory<_i398.UpdateCountsInCartUseCase>(
+      () => _i398.UpdateCountsInCartUseCase(
+        cartRepository: gh<_i388.CartRepository>(),
       ),
     );
     gh.factory<_i245.LoginViewModel>(
       () => _i245.LoginViewModel(loginUseCase: gh<_i471.LoginUseCase>()),
+    );
+    gh.factory<_i454.CartViewModel>(
+      () => _i454.CartViewModel(
+        addToCartUseCase: gh<_i1024.AddToCartUseCase>(),
+        getItemsInCartUseCase: gh<_i315.GetItemsInCartUseCase>(),
+        deleteItemsInCartUseCase: gh<_i87.DeleteItemsInCartUseCase>(),
+        updateCountsInCartUseCase: gh<_i398.UpdateCountsInCartUseCase>(),
+      ),
     );
     gh.factory<_i519.HomeTabViewModel>(
       () => _i519.HomeTabViewModel(

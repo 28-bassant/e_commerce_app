@@ -5,7 +5,14 @@ import '../../../core/utils/app_colors.dart';
 import '../../../core/utils/app_styles.dart';
 
 class AddItemCustomWidget extends StatelessWidget {
-  const AddItemCustomWidget({super.key});
+  int count;
+  VoidCallback onPressedIncrement;
+  VoidCallback onPressedDecrement;
+   AddItemCustomWidget({super.key,
+  required this.count,
+    required this.onPressedIncrement,
+    required this.onPressedDecrement
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +29,16 @@ class AddItemCustomWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Icon(Icons.add_circle_outline_outlined,color: AppColors.whiteColor,),
-          Text('1',style: AppStyles.medium18White,),
-          Icon(Icons.remove_circle_outline_outlined,color: AppColors.whiteColor,)
+          InkWell(
+            //todo: Decrement Count
+          onTap: onPressedDecrement,
+              child: Icon(Icons.remove_circle_outline_outlined,color: AppColors.whiteColor,)),
+          Text('$count',style: AppStyles.medium18White,),
+          InkWell(
+            //todo: Increment Count
+          onTap: onPressedIncrement,
+              child: Icon(Icons.add_circle_outline_outlined,color: AppColors.whiteColor,)),
+
         ],
       ),
     );

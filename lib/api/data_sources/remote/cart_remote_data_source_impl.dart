@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:e_commerce_app/api/mapper/add_cart_response_mapper.dart';
 import 'package:e_commerce_app/api/mapper/get_cart_response_mapper.dart';
 import 'package:e_commerce_app/api/model/request/add_product_request_dto.dart';
+import 'package:e_commerce_app/api/model/request/count_request_dto.dart';
 import 'package:e_commerce_app/api/web_services.dart';
 import 'package:e_commerce_app/core/cache/shared_prefs_utils.dart';
 import 'package:e_commerce_app/data/data_sources/remote/cart_remote_data_source.dart';
@@ -45,4 +46,34 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource{
     }
   }
 
+  @override
+  Future<GetCartResponse> deleteItemsInCart(String productId) async{
+    try {
+
+      String? token = SharedPrefsUtils.getData(key: 'token') as String?;
+      var deleteCartResponse = await webServices.deleteItemsInCart(productId,token??'');
+      //todo: GetCartResponseDto => GetCartResponse
+      return deleteCartResponse .toGetCartResponse();
+    } on DioException catch (e) {
+      String message = (e.error as AppException).message;
+      throw ServerException(message: message);
+    }
+  }
+
+  @override
+  Future<GetCartResponse> updateCountInCart(String productId, int count) async {
+    try {
+      String? token = SharedPrefsUtils.getData(key: 'token') as String?;
+      CountRequestDto countRequest = CountRequestDto(
+        count: count.toString()
+      );
+      var updateCartResponse = await webServices.updateCountInCart(productId,
+          token??'', countRequest);
+      //todo: GetCartResponseDto => GetCartResponse
+      return updateCartResponse.toGetCartResponse();
+    } on DioException catch (e) {
+      String message = (e.error as AppException).message;
+      throw ServerException(message: message);
+    }
+  }
 }
