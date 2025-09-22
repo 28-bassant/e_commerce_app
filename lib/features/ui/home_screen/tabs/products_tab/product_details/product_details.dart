@@ -134,7 +134,32 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ],
                     ),
                   ),
-                  AddItemCustomWidget()
+      Container(
+        padding: EdgeInsets.symmetric(
+            vertical: 8.h,
+            horizontal: 8.w
+        ),
+        width: 122.w,
+        decoration: BoxDecoration(
+          color: AppColors.primaryColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            InkWell(
+              //todo: Decrement Count
+                onTap: (){},
+                child: Icon(Icons.remove_circle_outline_outlined,color: AppColors.whiteColor,)),
+            Text('1',style: AppStyles.medium18White,),
+            InkWell(
+              //todo: Increment Count
+                onTap: (){},
+                child: Icon(Icons.add_circle_outline_outlined,color: AppColors.whiteColor,)),
+
+          ],
+        ),
+      )
                 ],
               ),
               SizedBox(height: 24.h,),

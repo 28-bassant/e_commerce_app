@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/utils/toast_utils.dart';
 import 'package:e_commerce_app/features/ui/cart/cart_item.dart';
 import 'package:e_commerce_app/features/ui/cart/cubit/cart_states.dart';
 import 'package:e_commerce_app/features/ui/cart/cubit/cart_view_model.dart';
@@ -45,56 +46,72 @@ class _CartScreenState extends State<CartScreen> {
 
         ],
       ),
-      body: BlocBuilder<CartViewModel,CartStates>(
-        builder: (context, state) {
-          if(state is GetCartErrorState){
-            return MainErrorWidget(errorMsg: state.message);
-          }else if(state is GetCartSuccessState){
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        return CartItem(getProducts: state.getCart.products![index],);
-                      },
-
-                      itemCount: state.getCart.products!.length
-                  ),
-                ),
-                SizedBox(height: 24.h,),
-                Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.h),
-                  child: Row(
-                    children: [
-                      Column(
-                        children: [
-                          Text('Total Price',style: AppStyles.medium18PrimaryDark,),
-                          Text('EGP ${state.getCart.totalCartPrice}',style: AppStyles.medium18Black,),
-                        ],
-                      ),
-                      SizedBox(width: 16.w,),
-                      Expanded(
-                        child: CustomElevatedButton(
-                          text: 'Checkout',
-                          borderReadius: 34,
-                          backgroundColor: AppColors.primaryColor,
-                          onPressed: () {
-                            //todo: Checkout
-                          },
-
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            );
-          }else{
-            return MainLoadingWidget();
+      body: BlocListener<CartViewModel,CartStates>(
+        listener: (context, state) {
+          if(state is GetCartSuccessState){
+            ToastUtils.ShowToast(
+                msg: state.message ?? 'Success',
+                bgColor: AppColors.greenColor,
+                textColor: AppColors.whiteColor);
           }
         },
+        child: BlocBuilder<CartViewModel,CartStates>(
+          builder: (context, state) {
+            if(state is GetCartErrorState){
+              return MainErrorWidget(errorMsg: state.message);
+            }else if(state is GetCartSuccessState){
+              return state.getCart.products == null?
+              Center(
+                child: Text('No Items Found',style: AppStyles.medium18PrimaryDark,),
+              )
+              :Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return CartItem(getProducts: state.getCart.products![index],);
+                        },
+
+                        itemCount: state.getCart.products!.length
+                    ),
+                  ),
+                  SizedBox(height: 24.h,),
+                  Padding(
+                    padding:  EdgeInsets.symmetric(horizontal: 16.w,vertical: 16.h),
+                    child: Row(
+                      children: [
+                        Column(
+                          children: [
+                            Text('Total Price',style: AppStyles.medium18PrimaryDark,),
+                            Text('EGP ${state.getCart.totalCartPrice}',style: AppStyles.medium18Black,),
+                          ],
+                        ),
+                        SizedBox(width: 16.w,),
+                        Expanded(
+                          child: CustomElevatedButton(
+                            text: 'Checkout',
+                            borderReadius: 34,
+                            backgroundColor: AppColors.primaryColor,
+                            textStyle: AppStyles.medium20White,
+
+                            onPressed: () {
+                              //todo: Checkout
+                            },
+
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              );
+            }else{
+              return MainLoadingWidget();
+            }
+          },
 
 
+        ),
       ),
 
     );

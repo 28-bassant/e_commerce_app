@@ -10,6 +10,7 @@ import 'package:e_commerce_app/api/model/response/products/products_response_dto
 import 'package:retrofit/retrofit.dart';
 
 import 'model/request/add_product_request_dto.dart';
+import 'model/request/count_request_dto.dart';
 import 'model/request/login_request.dart';
 import 'model/response/brands/brand_response_dto.dart';
 
@@ -45,6 +46,19 @@ abstract class WebServices {
        @Header('token') String token
        );
 
+   
+   @DELETE(ApiEndPoints.deleteCartApi)
+   Future<GetCartResponseDto> deleteItemsInCart(
+       @Path() String productId,
+       @Header('token') String token
+       );
+
+   @PUT(ApiEndPoints.deleteCartApi)
+   Future<GetCartResponseDto> updateCountInCart(
+       @Path() String productId,
+       @Header('token') String token,
+       @Body() CountRequestDto countRequest
+       );
 
 
 

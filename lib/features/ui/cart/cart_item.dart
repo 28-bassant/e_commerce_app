@@ -4,14 +4,20 @@ import 'package:e_commerce_app/core/utils/app_colors.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
 import 'package:e_commerce_app/domain/entities/response/get_cart.dart';
 import 'package:e_commerce_app/domain/entities/response/get_products.dart';
+import 'package:e_commerce_app/features/ui/cart/cubit/cart_view_model.dart';
 import 'package:e_commerce_app/features/ui/widgets/add_item_custom_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CartItem extends StatelessWidget {
+class CartItem extends StatefulWidget {
   final GetProducts getProducts;
   CartItem({required this.getProducts});
 
+  @override
+  State<CartItem> createState() => _CartItemState();
+}
+
+class _CartItemState extends State<CartItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,17 +33,47 @@ class CartItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          ImageCart(imageCover: getProducts.product?.imageCover ?? ''),
+          ImageCart(imageCover: widget.getProducts.product?.imageCover ?? ''),
           SizedBox(width: 8.w),
           Expanded( // make content flexible
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TitleWidget(title: getProducts.product?.title ?? ''),
+                TitleWidget(title: widget.getProducts.product?.title ?? '',
+                productId: widget.getProducts.product?.id ?? ''),
                 SizedBox(height: 8.h),
                 ColorWidget(),
                 SizedBox(height: 8.h),
-                PriceWidget(price: getProducts.price ?? 0),
+                PriceWidget(price: widget.getProducts.price ?? 0,
+                count: widget.getProducts.count ?? 0,
+                onPressedIncrement: () {
+                  //todo : Increment Count
+                  int count = widget.getProducts.count!;
+
+                    count ++;
+                    setState(() {
+
+                    });
+                    CartViewModel.get(context).updateCountInCart(
+                        widget.getProducts.product?.id ?? '',
+                        count);
+
+                },
+                onPressedDecrement: () {
+                  //todo : Decrement Count
+                  int count = widget.getProducts.count!;
+                  if(count > 1){
+                    count --;
+                    setState(() {
+
+                    });
+                    CartViewModel.get(context).updateCountInCart(
+                        widget.getProducts.product?.id ?? '',
+                        count);
+                  }
+
+
+                },),
               ],
             ),
           ),
@@ -76,7 +112,7 @@ class CartItem extends StatelessWidget {
     );
   }
 
-  Widget TitleWidget({required String title}) {
+  Widget TitleWidget({required String title,required String productId}) {
     return Row(
       children: [
         Expanded(
@@ -89,6 +125,7 @@ class CartItem extends StatelessWidget {
         InkWell(
           onTap: () {
             // todo: delete item from cart
+            CartViewModel.get(context).deleteItemsInCart(productId);
           },
           child: ImageIcon(
             AssetImage(AppAssets.deleteIcon),
@@ -112,7 +149,11 @@ class CartItem extends StatelessWidget {
     );
   }
 
-  Widget PriceWidget({required int price}) {
+  Widget PriceWidget({required int price,
+  required int count,
+  required VoidCallback onPressedIncrement,
+  required VoidCallback onPressedDecrement,
+  }) {
     return Row(
       children: [
         Expanded(
@@ -121,7 +162,11 @@ class CartItem extends StatelessWidget {
             style: AppStyles.medium18PrimaryDark,
           ),
         ),
-        AddItemCustomWidget(),
+        AddItemCustomWidget(
+            count: count,
+            onPressedDecrement: onPressedDecrement,
+             onPressedIncrement: onPressedIncrement,
+        ),
       ],
     );
   }
