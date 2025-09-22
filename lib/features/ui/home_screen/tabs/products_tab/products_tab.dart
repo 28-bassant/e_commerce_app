@@ -1,4 +1,8 @@
 import 'package:e_commerce_app/config/di/di.dart';
+import 'package:e_commerce_app/core/utils/app_colors.dart';
+import 'package:e_commerce_app/core/utils/toast_utils.dart';
+import 'package:e_commerce_app/features/ui/cart/cubit/cart_states.dart';
+import 'package:e_commerce_app/features/ui/cart/cubit/cart_view_model.dart';
 import 'package:e_commerce_app/features/ui/home_screen/tabs/products_tab/cubit/product_tab_states.dart';
 import 'package:e_commerce_app/features/ui/home_screen/tabs/products_tab/cubit/product_tab_view_model.dart';
 import 'package:e_commerce_app/features/ui/home_screen/tabs/products_tab/widgets/product_item.dart';
@@ -26,29 +30,45 @@ class _ProductsTabState extends State<ProductsTab> {
   }
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProductTabViewModel,ProductTabStates>(
-        bloc: viewModel,
-        builder: (context, state) {
-          if(state is ProductErrorState){
-            return MainErrorWidget(errorMsg: state.message,
-            onTryAgain: viewModel.getAllProducts,);
-          }
-          else if(state is ProductSuccessState){
-            return GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 16,
-                  crossAxisSpacing: 16,
-                  childAspectRatio: 0.56
-              ),
-              itemCount: state.productsList?.length,
-              itemBuilder: (context, index) {
-                return ProductItem(product: state.productsList![index],);
-              },);
-          }
-          else{
-            return MainLoadingWidget();
-          }
-        },);
+    return BlocListener<CartViewModel,CartStates>(
+      listener: (context, state) {
+        if(state is AddCartSuccessState){
+           ToastUtils.ShowToast(
+              msg: 'Item Added Successfully',
+               bgColor: AppColors.greenColor,
+               textColor: AppColors.whiteColor,
+               );
+        }else if(state is AddCartErrorState){
+          ToastUtils.ShowToast(
+              msg: state.message,
+              bgColor: AppColors.redColor,
+              textColor: AppColors.whiteColor);
+        }
+      },
+      child: BlocBuilder<ProductTabViewModel,ProductTabStates>(
+          bloc: viewModel,
+          builder: (context, state) {
+            if(state is ProductErrorState){
+              return MainErrorWidget(errorMsg: state.message,
+              onTryAgain: viewModel.getAllProducts,);
+            }
+            else if(state is ProductSuccessState){
+              return GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 16,
+                    crossAxisSpacing: 16,
+                    childAspectRatio: 0.56
+                ),
+                itemCount: state.productsList?.length,
+                itemBuilder: (context, index) {
+                  return ProductItem(product: state.productsList![index],);
+                },);
+            }
+            else{
+              return MainLoadingWidget();
+            }
+          },),
+    );
   }
 }

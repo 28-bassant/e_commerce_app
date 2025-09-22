@@ -1,0 +1,48 @@
+import 'package:dio/dio.dart';
+import 'package:e_commerce_app/api/mapper/add_cart_response_mapper.dart';
+import 'package:e_commerce_app/api/mapper/get_cart_response_mapper.dart';
+import 'package:e_commerce_app/api/model/request/add_product_request_dto.dart';
+import 'package:e_commerce_app/api/web_services.dart';
+import 'package:e_commerce_app/core/cache/shared_prefs_utils.dart';
+import 'package:e_commerce_app/data/data_sources/remote/cart_remote_data_source.dart';
+import 'package:e_commerce_app/domain/entities/response/add_cart_response.dart';
+import 'package:e_commerce_app/domain/entities/response/get_cart_response.dart';
+import 'package:injectable/injectable.dart';
+
+import '../../../core/exceptions/app_exception.dart';
+
+@Injectable(as: CartRemoteDataSource)
+class CartRemoteDataSourceImpl implements CartRemoteDataSource{
+  WebServices webServices;
+  CartRemoteDataSourceImpl({required this.webServices});
+  @override
+  Future<AddCartResponse> addToCart(String productId) async{
+    try {
+      AddProductRequestDto productRequest = AddProductRequestDto(
+        productId: productId
+      );
+      String? token = SharedPrefsUtils.getData(key: 'token') as String?;
+      var addCartResponse = await webServices.addToCart(productRequest, token ?? '');
+      //todo: AddCartResponseDto => AddCartResponse
+      return addCartResponse.toAddCartResponse();
+    } on DioException catch (e) {
+      String message = (e.error as AppException).message;
+      throw ServerException(message: message);
+    }
+  }
+
+  @override
+  Future<GetCartResponse> getItemsInCart() async{
+    try {
+
+      String? token = SharedPrefsUtils.getData(key: 'token') as String?;
+      var getCartResponse = await webServices.getItemsInCart(token??'');
+      //todo: GetCartResponseDto => GetCartResponse
+      return getCartResponse.toGetCartResponse();
+    } on DioException catch (e) {
+      String message = (e.error as AppException).message;
+      throw ServerException(message: message);
+    }
+  }
+
+}

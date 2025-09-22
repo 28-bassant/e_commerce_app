@@ -1,5 +1,6 @@
-import 'package:e_commerce_app/api/model/response/products/sub_category_dto.dart';
 import 'package:e_commerce_app/domain/entities/response/sub_category.dart';
+
+import '../model/response/common/sub_category_dto.dart';
 
 
 extension SubCategoryMapper on SubcategoryDto{

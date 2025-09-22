@@ -1,13 +1,16 @@
 
 import 'package:e_commerce_app/config/di/di.dart';
 import 'package:e_commerce_app/core/utils/app_assets.dart';
+import 'package:e_commerce_app/core/utils/app_routes.dart';
 import 'package:e_commerce_app/core/utils/app_styles.dart';
+import 'package:e_commerce_app/features/ui/cart/cubit/cart_view_model.dart';
 import 'package:e_commerce_app/features/ui/home_screen/cubit/home_screen_states.dart';
 import 'package:e_commerce_app/features/ui/home_screen/cubit/home_screen_view_model.dart';
 import 'package:e_commerce_app/features/ui/home_screen/tabs/favourite_tab/favourite_tab.dart';
 import 'package:e_commerce_app/features/ui/home_screen/tabs/home_tab/home_tab.dart';
 import 'package:e_commerce_app/features/ui/home_screen/tabs/products_tab/products_tab.dart';
 import 'package:e_commerce_app/features/ui/home_screen/tabs/profile_tab/profile_tab.dart';
+import 'package:e_commerce_app/features/ui/widgets/cart_widget.dart';
 import 'package:e_commerce_app/features/ui/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,6 +28,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
  HomeScreenViewModel viewModel = getIt<HomeScreenViewModel>();
+
+ @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    CartViewModel.get(context).getItemsInCart();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeScreenViewModel,HomeScreenStates>(
@@ -51,14 +61,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     ),
                     SizedBox(width: 25.w,),
-                    Badge(
-                      backgroundColor: AppColors.greenColor,
-                      textColor: AppColors.whiteColor,
-                      label: Text('5'),
-                      child: ImageIcon(AssetImage(AppAssets.shoppingCartIcon),
-                        color: AppColors.primaryColor,
-                        size: 35,
-                      ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, AppRoutes.cartRoute);
+                      },
+                      child: CartWidget(),
                     )
                   ],
                 ):

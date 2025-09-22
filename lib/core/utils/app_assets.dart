@@ -20,4 +20,11 @@ class AppAssets{
   static const String rateIcon = 'assets/images/rate_icon.png';
   static const String addIcon = 'assets/images/add_icon.png';
   static const String editIcon = 'assets/images/edit_icon.png';
+  static const String blackColor = 'assets/images/black_color.png';
+  static const String redColor = 'assets/images/red_color.png';
+  static const String blueColor = 'assets/images/blue_color.png';
+  static const String greenColor = 'assets/images/green_color.png';
+  static const String orangeColor = 'assets/images/orange_color.png';
+  static const String addToCartIcon = 'assets/images/add_to_cart_icon.png';
+  static const String deleteIcon = 'assets/images/delete_icon.png';
 }

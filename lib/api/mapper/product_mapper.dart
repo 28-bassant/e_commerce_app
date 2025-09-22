@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/api/mapper/category_mapper.dart';
 import 'package:e_commerce_app/api/mapper/sub_category_mapper.dart';
-import 'package:e_commerce_app/api/model/response/products/product_dto.dart';
+import 'package:e_commerce_app/api/model/response/common/product_dto.dart';
 import 'package:e_commerce_app/domain/entities/response/product.dart';
 
 
